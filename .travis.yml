@@ -1,0 +1,18 @@
+language: ruby
+rvm:
+  - "2.3"
+  - "2.4"
+branches:
+  only:
+    - "master"
+env:
+  global:
+    -
+      LC_ALL=en_US.UTF_8
+      LANG=en_US.UTF_8
+cache: bundler
+sudo: false
+git:
+  depth: 10
+script:
+  - bundle exec rake
