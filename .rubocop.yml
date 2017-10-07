@@ -48,3 +48,11 @@ Metrics/ParameterLists:
 
 Metrics/PerceivedComplexity:
   Enabled: false
+
+
+
+# ----- DISABLED (opinionated) -----
+
+# It does not make sense to enforce everything to have documentation.
+Style/Documentation:
+  Enabled: false
