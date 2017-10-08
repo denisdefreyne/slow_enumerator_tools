@@ -31,8 +31,6 @@ module SlowEnumeratorTools
         end
       end
 
-      protected
-
       def start
         threads = @enums.map { |enum| spawn_empty_into(enum, @q) }
 
@@ -41,6 +39,8 @@ module SlowEnumeratorTools
           @q << DONE
         end
       end
+
+      protected
 
       def spawn_empty_into(enum, queue)
         spawn do
