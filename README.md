@@ -2,9 +2,9 @@
 
 _SlowEnumeratorTools_ provides tools for transforming Ruby enumerators that produce data slowly and unpredictably (e.g. from a network source):
 
-* `SlowEnumeratorTools::Merger`: given a collection of enumerables, creates a new enumerator that yields elements from any of these enumerables as soon as they become available.
+* `SlowEnumeratorTools.merge`: given a collection of enumerables, creates a new enumerator that yields elements from any of these enumerables as soon as they become available.
 
-* `SlowEnumeratorTools::Bufferer`: given an enumerable, creates a new enumerable that yields batches containing all elements currently available.
+* `SlowEnumeratorTools.buffer`: given an enumerable, creates a new enumerable that yields batches containing all elements currently available.
 
 ## Installation
 
