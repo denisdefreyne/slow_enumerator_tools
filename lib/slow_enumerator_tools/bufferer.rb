@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module SlowEnumeratorTools
-  module Batcher
-    def self.batch(enum)
+  module Bufferer
+    def self.buffer(enum)
       q = Queue.new
       stop = Object.new
 

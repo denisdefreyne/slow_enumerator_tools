@@ -4,5 +4,5 @@ module SlowEnumeratorTools
 end
 
 require_relative 'slow_enumerator_tools/version'
-require_relative 'slow_enumerator_tools/batcher'
-require_relative 'slow_enumerator_tools/joiner'
+require_relative 'slow_enumerator_tools/bufferer'
+require_relative 'slow_enumerator_tools/merger'

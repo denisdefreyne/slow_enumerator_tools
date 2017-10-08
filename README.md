@@ -2,9 +2,9 @@
 
 _SlowEnumeratorTools_ provides tools for transforming Ruby enumerators that produce data slowly and unpredictably (e.g. from a network source):
 
-* `SlowEnumeratorTools::Joiner`: given a collection of enumerables, creates a new enumerator that yields elements from any of these enumerables as soon as they become available.
+* `SlowEnumeratorTools::Merger`: given a collection of enumerables, creates a new enumerator that yields elements from any of these enumerables as soon as they become available.
 
-* `SlowEnumeratorTools::Batcher`: given an enumerable, creates a new enumerable that yields batches containing all elements currently available.
+* `SlowEnumeratorTools::Bufferer`: given an enumerable, creates a new enumerable that yields batches containing all elements currently available.
 
 ## Installation
 
@@ -24,7 +24,7 @@ Or install it yourself as:
 
 ## Usage
 
-### `SlowEnumeratorTools::Joiner`
+### `SlowEnumeratorTools::Merger`
 
 Given a collection of enumerables, creates a new enumerator that yields elements from any of these enumerables as soon as they become available.
 
@@ -37,9 +37,9 @@ enums << 5.times.lazy.map { |i| sleep(0.1 + rand * 0.2); [:a, i] }
 enums << 5.times.lazy.map { |i| sleep(0.1 + rand * 0.2); [:b, i] }
 enums << 5.times.lazy.map { |i| sleep(0.1 + rand * 0.2); [:c, i] }
 
-# Join and print
-joined_enum = SlowEnumeratorTools::Joiner.join(enums)
-joined_enum.each { |e| p e }
+# Merge and print
+merged_enum = SlowEnumeratorTools::Merger.merg(enums)
+merged_enum.each { |e| p e }
 ```
 
 Example output:
@@ -62,7 +62,7 @@ Example output:
 [:a, 4]
 ```
 
-### `SlowEnumeratorTools::Batcher`
+### `SlowEnumeratorTools::Bufferer`
 
 Given an enumerable, creates a new enumerable that yields batches containing all elements currently available.
 
@@ -72,21 +72,21 @@ This is useful for fetching all outstanding events on an event stream, without b
 # Generate a slow enum
 enum = 4.times.lazy.map { |i| sleep(0.1); i }
 
-# Batch
-batched_enum = SlowEnumeratorTools::Batcher.batch(enum)
+# Buffer
+buffer_enum = SlowEnumeratorTools::Bufferer.buffer(enum)
 
 # Wait until first batch is available
 # … prints [0]
-p batched_enum.next
+p buffer_enum.next
 
 # Give it enough time for the second batch to have accumulated more elements,
 # … prints [1, 2]
 sleep 0.25
-p batched_enum.next
+p buffer_enum.next
 
 # Wait until final batch is available
 # … prints [3]
-p batched_enum.next
+p buffer_enum.next
 ```
 
 ## Development

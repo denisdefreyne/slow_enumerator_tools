@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-describe SlowEnumeratorTools::Joiner do
-  subject { described_class.join(enums).to_a }
+describe SlowEnumeratorTools::Merger do
+  subject { described_class.merge(enums).to_a }
 
   context 'no enums' do
     let(:enums) { [] }

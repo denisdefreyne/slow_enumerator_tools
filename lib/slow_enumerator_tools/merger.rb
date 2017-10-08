@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module SlowEnumeratorTools
-  module Joiner
-    def self.join(enums)
+  module Merger
+    def self.merge(enums)
       enum = Iterator.new(enums).tap(&:start)
 
       Enumerator.new do |y|
