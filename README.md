@@ -1,3 +1,9 @@
+[![Gem version](https://img.shields.io/gem/v/slow_enumerator_tools.svg)](http://rubygems.org/gems/slow_enumerator_tools)
+[![Gem downloads](https://img.shields.io/gem/dt/slow_enumerator_tools.svg)](http://rubygems.org/gems/slow_enumerator_tools)
+[![Build status](https://img.shields.io/travis/ddfreyne/slow_enumerator_tools.svg)](https://travis-ci.org/ddfreyne/slow_enumerator_tools)
+[![Code Climate](https://img.shields.io/codeclimate/github/ddfreyne/slow_enumerator_tools.svg)](https://codeclimate.com/github/ddfreyne/slow_enumerator_tools)
+[![Code Coverage](https://img.shields.io/codecov/c/github/ddfreyne/slow_enumerator_tools.svg)](https://codecov.io/gh/ddfreyne/slow_enumerator_tools)
+
 # SlowEnumeratorTools
 
 _SlowEnumeratorTools_ provides tools for transforming Ruby enumerators that produce data slowly and unpredictably (e.g. from a network source):
