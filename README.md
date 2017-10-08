@@ -24,7 +24,7 @@ Or install it yourself as:
 
 ## Usage
 
-### `SlowEnumeratorTools::Merger`
+### `SlowEnumeratorTools.merge`
 
 Given a collection of enumerables, creates a new enumerator that yields elements from any of these enumerables as soon as they become available.
 
@@ -38,7 +38,7 @@ enums << 5.times.lazy.map { |i| sleep(0.1 + rand * 0.2); [:b, i] }
 enums << 5.times.lazy.map { |i| sleep(0.1 + rand * 0.2); [:c, i] }
 
 # Merge and print
-merged_enum = SlowEnumeratorTools::Merger.merg(enums)
+merged_enum = SlowEnumeratorTools.merge(enums)
 merged_enum.each { |e| p e }
 ```
 
@@ -62,7 +62,7 @@ Example output:
 [:a, 4]
 ```
 
-### `SlowEnumeratorTools::Bufferer`
+### `SlowEnumeratorTools.buffer`
 
 Given an enumerable, creates a new enumerable that yields batches containing all elements currently available.
 
@@ -73,7 +73,7 @@ This is useful for fetching all outstanding events on an event stream, without b
 enum = 4.times.lazy.map { |i| sleep(0.1); i }
 
 # Buffer
-buffer_enum = SlowEnumeratorTools::Bufferer.buffer(enum)
+buffer_enum = SlowEnumeratorTools.buffer(enum)
 
 # Wait until first batch is available
 # … prints [0]
