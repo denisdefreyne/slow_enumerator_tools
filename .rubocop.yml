@@ -56,3 +56,7 @@ Metrics/PerceivedComplexity:
 # It does not make sense to enforce everything to have documentation.
 Style/Documentation:
   Enabled: false
+
+# This does not always make sense
+Style/GuardClause:
+  Enabled: false
