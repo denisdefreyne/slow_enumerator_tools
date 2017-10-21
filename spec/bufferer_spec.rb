@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe SlowEnumeratorTools::Bufferer do
+describe SlowEnumeratorTools::Batcher do
   let(:wrapped) do
     Enumerator.new do |y|
       5.times do |i|
@@ -11,7 +11,7 @@ describe SlowEnumeratorTools::Bufferer do
   end
 
   subject do
-    described_class.buffer(wrapped)
+    described_class.batch(wrapped)
   end
 
   example do

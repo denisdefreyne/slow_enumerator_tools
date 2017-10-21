@@ -5,11 +5,11 @@ module SlowEnumeratorTools
     SlowEnumeratorTools::Merger.merge(es)
   end
 
-  def self.buffer(es)
-    SlowEnumeratorTools::Bufferer.buffer(es)
+  def self.batch(es)
+    SlowEnumeratorTools::Batcher.batch(es)
   end
 end
 
 require_relative 'slow_enumerator_tools/version'
-require_relative 'slow_enumerator_tools/bufferer'
+require_relative 'slow_enumerator_tools/batcher'
 require_relative 'slow_enumerator_tools/merger'

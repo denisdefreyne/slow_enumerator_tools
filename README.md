@@ -10,7 +10,7 @@ _SlowEnumeratorTools_ provides tools for transforming Ruby enumerators that prod
 
 * `SlowEnumeratorTools.merge`: given a collection of enumerables, creates a new enumerator that yields elements from any of these enumerables as soon as they become available.
 
-* `SlowEnumeratorTools.buffer`: given an enumerable, creates a new enumerable that yields batches containing all elements currently available.
+* `SlowEnumeratorTools.batch`: given an enumerable, creates a new enumerable that yields batches containing all elements currently available.
 
 ## Installation
 
@@ -68,7 +68,7 @@ Example output:
 [:a, 4]
 ```
 
-### `SlowEnumeratorTools.buffer`
+### `SlowEnumeratorTools.batch`
 
 Given an enumerable, creates a new enumerable that yields batches containing all elements currently available.
 
@@ -78,21 +78,21 @@ This is useful for fetching all outstanding events on an event stream, without b
 # Generate a slow enum
 enum = 4.times.lazy.map { |i| sleep(0.1); i }
 
-# Buffer
-buffer_enum = SlowEnumeratorTools.buffer(enum)
+# Batch
+batch_enum = SlowEnumeratorTools.batch(enum)
 
 # Wait until first batch is available
 # … prints [0]
-p buffer_enum.next
+p batch_enum.next
 
 # Give it enough time for the second batch to have accumulated more elements,
 # … prints [1, 2]
 sleep 0.25
-p buffer_enum.next
+p batch_enum.next
 
 # Wait until final batch is available
 # … prints [3]
-p buffer_enum.next
+p batch_enum.next
 ```
 
 ## Development
