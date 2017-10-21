@@ -10,7 +10,7 @@ def run(*args)
   print 'Is this correct? [y/N] '
   res = gets
   unless res.strip.casecmp('y').zero?
-    $stderr.puts 'Answer was not Y; release aborted.'
+    warn 'Answer was not Y; release aborted.'
     exit 1
   end
 
@@ -20,7 +20,7 @@ def run(*args)
   print 'Continue? [y/N] '
   res = gets
   unless res.strip.casecmp('y').zero?
-    $stderr.puts 'Answer was not Y; release aborted.'
+    warn 'Answer was not Y; release aborted.'
     exit 1
   end
 end
@@ -38,7 +38,7 @@ puts
 
 puts '=== Verifying presence of release date…'
 unless File.readlines('NEWS.md').drop(2).first =~ / \(\d{4}-\d{2}-\d{2}\)$/
-  $stderr.puts 'No proper release date found!'
+  warn 'No proper release date found!'
   exit 1
 end
 puts
@@ -56,8 +56,8 @@ puts '=== Verifying that release does not yet exist…'
 releases = client.releases('ddfreyne/slow_enumerator_tools')
 release = releases.find { |r| r.tag_name == SlowEnumeratorTools::VERSION }
 if release
-  $stderr.puts 'Release already exists!'
-  $stderr.puts 'ABORTED!'
+  warn 'Release already exists!'
+  warn 'ABORTED!'
   exit 1
 end
 puts
