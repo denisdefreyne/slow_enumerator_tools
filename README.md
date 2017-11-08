@@ -12,6 +12,8 @@ _SlowEnumeratorTools_ provides tools for transforming Ruby enumerators that prod
 
 * `SlowEnumeratorTools.batch`: given an enumerable, creates a new enumerable that yields batches containing all elements currently available.
 
+* `SlowEnumeratorTools.buffer`: given an enumerable and a number, will create a buffer of that number of elements and try to fill it up with as many elements from that enumerable, so that they can be yielded immediately.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -93,6 +95,32 @@ p batch_enum.next
 # Wait until final batch is available
 # … prints [3]
 p batch_enum.next
+```
+
+### `SlowEnumeratorTools.buffer`
+
+Given an enumerable and a number, will create a buffer of that number of elements and try to fill it up with as many elements from that enumerable.
+
+This is particularly useful when reading from a slow source and writing to a slow sink, because the two will be able to work concurrently.
+
+```ruby
+# Create (fake) articles enumerator
+articles =
+  Enumerator.new do |y|
+    5.times do |i|
+      sleep 1
+      y << "Article #{i}"
+    end
+  end
+
+# Buffer
+articles = SlowEnumeratorTools.buffer(articles, 5)
+
+# Print each article
+# This takes 6 seconds, rather than 10!
+articles.each do |a|
+  sleep 1
+end
 ```
 
 ## Development
