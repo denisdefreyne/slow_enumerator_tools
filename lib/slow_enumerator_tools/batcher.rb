@@ -2,16 +2,17 @@
 
 module SlowEnumeratorTools
   module Batcher
+    STOP_OK = Object.new
+
     def self.batch(enum)
       q = Queue.new
-      stop = Object.new
 
       t =
         Thread.new do
           enum.each do |e|
             q << e
           end
-          q << stop
+          q << STOP_OK
         end
 
       Enumerator.new do |y|
@@ -21,7 +22,7 @@ module SlowEnumeratorTools
 
           # pop first
           elem = q.pop
-          break if stop.equal?(elem)
+          break if STOP_OK.equal?(elem)
           res << elem
 
           loop do
@@ -31,7 +32,7 @@ module SlowEnumeratorTools
             rescue ThreadError
               break
             end
-            if stop.equal?(elem)
+            if STOP_OK.equal?(elem)
               ended = true
               break
             end
