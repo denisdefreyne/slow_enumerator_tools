@@ -11,15 +11,15 @@ module SlowEnumeratorTools
     def self.gen_enumerator(queue, collector_thread)
       Enumerator.new do |y|
         loop do
-          e = queue.pop
+          elem = queue.pop
 
-          if SlowEnumeratorTools::Util::STOP_OK.equal?(e)
+          if SlowEnumeratorTools::Util::STOP_OK.equal?(elem)
             break
-          elsif SlowEnumeratorTools::Util::STOP_ERR.equal?(e)
+          elsif SlowEnumeratorTools::Util::STOP_ERR.equal?(elem)
             raise queue.pop
           end
 
-          y << e
+          y << elem
         end
         collector_thread.join
       end.lazy

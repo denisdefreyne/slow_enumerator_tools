@@ -11,8 +11,6 @@ module SlowEnumeratorTools
     end
 
     class Iterator
-      DONE = Object.new
-
       def initialize(enums)
         @enums = enums
         @q = SizedQueue.new(5)
@@ -23,9 +21,11 @@ module SlowEnumeratorTools
         raise StopIteration if @done
 
         nxt = @q.pop
-        if DONE.equal?(nxt)
+        if SlowEnumeratorTools::Util::STOP_OK.equal?(nxt)
           @done = true
           raise StopIteration
+        elsif SlowEnumeratorTools::Util::STOP_ERR.equal?(nxt)
+          raise @q.pop
         else
           nxt
         end
@@ -34,24 +34,22 @@ module SlowEnumeratorTools
       def start
         threads = @enums.map { |enum| spawn_empty_into(enum, @q) }
 
-        spawn do
+        Thread.new do
           threads.each(&:join)
-          @q << DONE
+          @q << SlowEnumeratorTools::Util::STOP_OK
         end
       end
 
       protected
 
       def spawn_empty_into(enum, queue)
-        spawn do
-          enum.each { |e| queue << e }
-        end
-      end
-
-      def spawn
         Thread.new do
-          Thread.current.abort_on_exception = true
-          yield
+          begin
+            enum.each { |e| queue << e }
+          rescue StandardError => e
+            queue << SlowEnumeratorTools::Util::STOP_ERR
+            queue << e
+          end
         end
       end
     end
