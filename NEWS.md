@@ -15,7 +15,7 @@ Features:
 
 Changes:
 
-* Renamed buffer to batch
+* Renamed `.buffer` to `.batch`
 
 ## 1.0.0a1 (2017-10-08)
 
