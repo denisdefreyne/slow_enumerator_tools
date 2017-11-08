@@ -11,8 +11,6 @@ module SlowEnumeratorTools
     end
 
     class Iterator
-      DONE = Object.new
-
       def initialize(enums)
         @enums = enums
         @q = SizedQueue.new(5)
@@ -23,7 +21,7 @@ module SlowEnumeratorTools
         raise StopIteration if @done
 
         nxt = @q.pop
-        if DONE.equal?(nxt)
+        if SlowEnumeratorTools::Util::STOP_OK.equal?(nxt)
           @done = true
           raise StopIteration
         else
@@ -36,7 +34,7 @@ module SlowEnumeratorTools
 
         spawn do
           threads.each(&:join)
-          @q << DONE
+          @q << SlowEnumeratorTools::Util::STOP_OK
         end
       end
 
