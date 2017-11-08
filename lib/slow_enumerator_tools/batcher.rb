@@ -2,22 +2,10 @@
 
 module SlowEnumeratorTools
   module Batcher
-    STOP_OK = Object.new
-    STOP_ERR = Object.new
-
     def self.batch(enum)
       queue = Queue.new
 
-      t =
-        Thread.new do
-          begin
-            enum.each { |e| queue << e }
-            queue << STOP_OK
-          rescue StandardError => e
-            queue << STOP_ERR
-            queue << e
-          end
-        end
+      t = SlowEnumeratorTools::Util.gen_collector_thread(enum, queue)
 
       Enumerator.new do |y|
         loop do
@@ -26,9 +14,9 @@ module SlowEnumeratorTools
 
           # pop first
           elem = queue.pop
-          if STOP_OK.equal?(elem)
+          if SlowEnumeratorTools::Util::STOP_OK.equal?(elem)
             break
-          elsif STOP_ERR.equal?(elem)
+          elsif SlowEnumeratorTools::Util::STOP_ERR.equal?(elem)
             raise queue.pop
           end
           res << elem
@@ -40,10 +28,10 @@ module SlowEnumeratorTools
             rescue ThreadError
               break
             end
-            if STOP_OK.equal?(elem)
+            if SlowEnumeratorTools::Util::STOP_OK.equal?(elem)
               ended = true
               break
-            elsif STOP_ERR.equal?(elem)
+            elsif SlowEnumeratorTools::Util::STOP_ERR.equal?(elem)
               raise queue.pop
             end
             res << elem
