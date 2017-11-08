@@ -67,4 +67,58 @@ describe SlowEnumeratorTools::Merger do
     let(:enums) { [[1, 2], [3, 4]] }
     it { is_expected.to match_array([1, 2, 3, 4]) }
   end
+
+  context 'error in taken elements' do
+    subject { described_class.merge(enums) }
+
+    let(:enum) do
+      Enumerator.new do |y|
+        y << 1
+        y << 2
+        raise 'boom'
+      end.lazy
+    end
+
+    let(:enums) { [enum] }
+
+    it 'does not raise right away' do
+      subject
+    end
+
+    it 'does not raise when only taken' do
+      subject.take(3)
+    end
+
+    it 'raises when evaluated' do
+      expect { subject.take(3).to_a }
+        .to raise_error(RuntimeError, 'boom')
+    end
+  end
+
+  context 'error past taken elements' do
+    subject { described_class.merge(enums) }
+
+    let(:enum) do
+      Enumerator.new do |y|
+        y << 1
+        y << 2
+        y << 3
+        raise 'boom'
+      end.lazy
+    end
+
+    let(:enums) { [enum] }
+
+    it 'does not raise right away' do
+      subject
+    end
+
+    it 'does not raise when only taken' do
+      subject.take(3)
+    end
+
+    it 'does not raise when evaluated' do
+      expect(subject.take(3).to_a).to eq([1, 2, 3])
+    end
+  end
 end
