@@ -14,4 +14,9 @@ describe SlowEnumeratorTools do
     expect(SlowEnumeratorTools.batch([1, 2]).to_a)
       .to match_array([[1, 2]])
   end
+
+  it 'supports .buffer shorthand' do
+    expect(SlowEnumeratorTools.buffer([1, 2], 5).to_a)
+      .to match_array([1, 2])
+  end
 end
