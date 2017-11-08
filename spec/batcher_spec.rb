@@ -35,6 +35,29 @@ describe SlowEnumeratorTools::Batcher do
     expect(subject.next).to eq([0, 1, 2])
   end
 
+  context 'empty enumerable' do
+    let(:wrapped) do
+      Enumerator.new do |y|
+      end
+    end
+
+    it 'returns nothing' do
+      expect { subject.next }.to raise_error(StopIteration)
+    end
+  end
+
+  context 'instant-erroring enumerable' do
+    let(:wrapped) do
+      Enumerator.new do |_y|
+        raise 'boom'
+      end
+    end
+
+    it 'returns nothing' do
+      expect { subject.next }.to raise_error(RuntimeError, 'boom')
+    end
+  end
+
   context 'error in taken elements' do
     let(:wrapped) do
       Enumerator.new do |y|
